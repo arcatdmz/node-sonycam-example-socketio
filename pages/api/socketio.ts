@@ -1,17 +1,8 @@
-import http from "http";
-import type { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest } from "next";
 import { Server } from "socket.io";
+import { NextApiResponseWithSocketIO } from "../../lib/NextApiResponseWithSocketIO";
 
-const ioHandler = (
-  req: NextApiRequest,
-  res: NextApiResponse & {
-    socket: {
-      server: http.Server & {
-        io: Server;
-      };
-    };
-  }
-) => {
+const ioHandler = (_req: NextApiRequest, res: NextApiResponseWithSocketIO) => {
   if (res.socket) {
     if (!res.socket.server.io) {
       console.log("*First use, starting socket.io");
