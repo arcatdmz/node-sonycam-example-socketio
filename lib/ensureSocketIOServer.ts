@@ -8,7 +8,7 @@ export function ensureSocketIOServer(
     return null;
   }
   if (!res.socket.server.io) {
-    console.log("*First use, starting socket.io");
+    console.log("*First use, starting Socket.io");
 
     const io = new Server(res.socket.server);
 
@@ -21,7 +21,7 @@ export function ensureSocketIOServer(
 
     res.socket.server.io = io;
   } else {
-    console.log("socket.io already running");
+    console.log("Socket.io already running");
   }
   return res.socket.server.io;
 }
