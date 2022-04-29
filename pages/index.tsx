@@ -8,6 +8,7 @@ import styles from "../styles/Index.module.css";
 const SocketIoPage: NextPage = () => {
   const [objectUrl, setObjectUrl] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const [fps, setFps] = useState<number | null>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -38,11 +39,13 @@ const SocketIoPage: NextPage = () => {
         console.log("disconnect");
       });
 
+      let lastTimestamp = -1,
+        timestamps: number[] = [];
       socket.on(
         "image",
         ({
           // frameNumber,
-          // timestamp,
+          timestamp,
           // dataSize,
           data,
         }: {
@@ -51,6 +54,24 @@ const SocketIoPage: NextPage = () => {
           dataSize: number;
           data: ArrayBuffer;
         }) => {
+          // calculate framerate
+          if (lastTimestamp >= 0) {
+            const elapsed = timestamp - lastTimestamp;
+            timestamps.push(elapsed);
+            if (timestamps.length > 51) {
+              timestamps.shift();
+            }
+
+            // calc median
+            timestamps.sort();
+            const interval = timestamps[Math.floor(timestamps.length / 2)];
+
+            if (interval > 0) {
+              setFps(1000 / interval);
+            }
+          }
+          lastTimestamp = timestamp;
+
           setMessage(null);
           setObjectUrl((oldUrl) => {
             if (oldUrl) {
@@ -85,6 +106,12 @@ const SocketIoPage: NextPage = () => {
 
   return (
     <div className={styles.body}>
+      <span className={styles.fps}>
+        <span className={styles.number}>
+          {typeof fps === "number" ? Math.round(fps) : "-"}
+        </span>{" "}
+        fps
+      </span>
       <p>
         {message ||
           (objectUrl ? (

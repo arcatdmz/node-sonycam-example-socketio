@@ -1,14 +1,30 @@
 div.body {
+  position: relative;
   width: 100vw;
   height: 100vh;
   background: #000;
   display: flex;
   justify-content: center;
   align-items: center;
-  line-height: 0;
   overflow: hidden;
+}
+
+div.body > p {
+  line-height: 0;
 }
 
 div.body > p > img {
   width: 100vw;
+}
+
+.fps {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 0.2rem 0.6rem;
+  background: #000a;
+  color: #fff;
+}
+.fps > .number {
+  font-weight: bold;
 }
