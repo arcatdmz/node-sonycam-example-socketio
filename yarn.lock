@@ -4047,10 +4047,10 @@ node-releases@^2.0.3:
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-2.0.4.tgz#f38252370c43854dc48aa431c766c6c398f40476"
   integrity sha512-gbMzqQtTtDz/00jQzZ21PQzdI9PyLYqUSvD0p3naOhX4odFji0ZxYdnVwPTxmSwkmxhcFImpozceidSG+AgoPQ==
 
-node-sonycam@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/node-sonycam/-/node-sonycam-0.0.5.tgz#0e37ba11beaf03718779ecfb43f5a9d84f78c65b"
-  integrity sha512-MWrsF5t3mzzIEIAJpgD7JWUCgavvi4PM4MDjkwzD0kUVwVurVbNq3YO9DGXaC0K8JJ2xV1Ks4h5V0dtnhh+duw==
+node-sonycam@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/node-sonycam/-/node-sonycam-0.0.6.tgz#a5a0fd2697242a7f27dbc698866e687fbe16f6fd"
+  integrity sha512-IUwwGbhdpA9zwuZ4Vw/yMoDMqgRXsJqtvUkElzpKAei6QDmZOslxN7temZMupOskFj2tagvNl6CPDombDVMQMQ==
   dependencies:
     fast-xml-parser "^4.0.7"
     node-fetch "^3.2.3"
