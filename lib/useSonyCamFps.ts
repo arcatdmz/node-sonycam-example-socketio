@@ -10,8 +10,22 @@ export function useSonyCamFps(socket: Socket | null): number | null {
       return;
     }
     let lastTimestamp = -1,
-      intervals: number[] = [];
-    const imageListener: SonyCamImageListener = ({ timestamp }) => {
+      intervals: number[] = [],
+      lastFrameNumber: number = -1;
+    const imageListener: SonyCamImageListener = ({
+      frameNumber,
+      timestamp,
+    }) => {
+      // check frame number
+      if (lastFrameNumber >= 0) {
+        if (frameNumber === lastFrameNumber) {
+          console.error(
+            `Duplicate frame number ${frameNumber} detected; duplicate event emitters?`
+          );
+        }
+      }
+      lastFrameNumber = frameNumber;
+
       // calculate framerate
       if (lastTimestamp >= 0) {
         const elapsed = timestamp - lastTimestamp;
