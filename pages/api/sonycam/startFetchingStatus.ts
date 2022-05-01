@@ -13,10 +13,17 @@ const sonycamStartFetchingStatusHandler = async (
   try {
     const { fetchingStatus } = sonycam;
     if (!fetchingStatus) {
-      const message = "Starting fetching status";
+      const methodTypes: [string, string[], string[], string][] =
+        (await sonycam.call("getMethodTypes", [""])) as any;
+      const eventVersion = methodTypes.reduce(
+        (p, [methodName, , , version]) =>
+          methodName === "getEvent" ? version : p,
+        "1.0"
+      );
+      const message = `Starting fetching status (version: ${eventVersion})`;
       io.emit("sonycam", message);
       console.log(message);
-      await sonycam.startFetchingStatus();
+      await sonycam.startFetchingStatus(eventVersion);
     }
 
     // remove all previously-registered listeners (refresh listeners to accommodate hot reload)
