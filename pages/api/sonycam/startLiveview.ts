@@ -21,11 +21,12 @@ const sonycamStartLiveviewHandler = async (
       await sonycam.fetchLiveview();
     }
 
+    // remove all previously-registered listeners (refresh listeners to accommodate hot reload)
+    sonycam.removeAllListeners("image");
+
     const imageListener = (res: SonyCamImageResponse) => {
       io.emit("image", res);
     };
-    // remove all previously-registered listeners (refresh listeners to accommodate hot reload)
-    sonycam.removeAllListeners("image");
     sonycam.addListener("image", imageListener);
 
     res.json({
@@ -34,6 +35,7 @@ const sonycamStartLiveviewHandler = async (
         ? `Liveview already started: ${sonycam.liveviewUrl}`
         : `Started liveview: ${sonycam.liveviewUrl}`,
     });
+    io.emit("play", true);
   } catch (e) {
     const message =
       (e instanceof Error && `Error: ${e.message}`) || "Unknown error";
@@ -44,6 +46,7 @@ const sonycamStartLiveviewHandler = async (
       success: false,
       message,
     });
+    io.emit("play", false);
   }
 };
 

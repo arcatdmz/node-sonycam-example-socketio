@@ -1,15 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
 import { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { MouseEvent, useCallback, useEffect, useState } from "react";
+import { Button } from "semantic-ui-react";
 import { SonyCamImageListener } from "../lib/SonyCamImageListener";
 import { useSocketIO } from "../lib/useSocketIO";
 import { useSonyCamFps } from "../lib/useSonyCamFps";
+import { useSonyCamPlaying } from "../lib/useSonyCamPlaying";
 
 import styles from "../styles/Index.module.css";
 
 const SocketIoPage: NextPage = () => {
   const socket = useSocketIO();
   const fps = useSonyCamFps(socket);
+  const playing = useSonyCamPlaying(socket);
+  const [initialized, setInitialized] = useState<boolean>(false);
   const [objectUrl, setObjectUrl] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
@@ -34,9 +38,7 @@ const SocketIoPage: NextPage = () => {
       const json: {
         success: boolean;
       } = await res.json();
-      if (json.success) {
-        fetch("/api/sonycam/startLiveview");
-      }
+      setInitialized(json.success);
     });
 
     return () => {
@@ -45,13 +47,40 @@ const SocketIoPage: NextPage = () => {
     };
   }, [socket]);
 
+  const handleClick = useCallback(
+    (ev: MouseEvent) => {
+      ev.preventDefault();
+      setInitialized(false);
+      fetch(
+        playing ? "/api/sonycam/stopLiveview" : "/api/sonycam/startLiveview"
+      ).finally(() => {
+        setInitialized(true);
+        if (playing) {
+          setObjectUrl(
+            (oldUrl) => (oldUrl && URL.revokeObjectURL(oldUrl)) || null
+          );
+        }
+      });
+      return false;
+    },
+    [playing]
+  );
+
   return (
     <div className={styles.body}>
-      <span className={styles.fps}>
+      <span className={[styles.fps, styles.box].join(" ")}>
         <span className={styles.number}>
-          {typeof fps === "number" ? Math.round(fps) : "-"}
+          {playing && typeof fps === "number" ? Math.round(fps) : "-"}
         </span>{" "}
         fps
+      </span>
+      <span className={[styles.control, styles.box].join(" ")}>
+        <Button
+          icon={playing ? "stop" : "play"}
+          color="grey"
+          disabled={!initialized}
+          onClick={handleClick}
+        />
       </span>
       <p>
         {message ||

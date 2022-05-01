@@ -25,6 +25,8 @@ const sonycamStopLiveviewHandler = async (
       success: false,
       message,
     });
+  } finally {
+    io.emit("play", false);
   }
 };
 

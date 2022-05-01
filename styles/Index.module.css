@@ -2,7 +2,7 @@ div.body {
   position: relative;
   width: 100vw;
   height: 100vh;
-  background: #000;
+  background: #222;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,13 +18,23 @@ div.body > p > img {
 }
 
 .fps {
-  position: absolute;
+  background: #000a;
   right: 0;
   bottom: 0;
   padding: 0.2rem 0.6rem;
-  background: #000a;
   color: #fff;
 }
 .fps > .number {
   font-weight: bold;
+}
+
+.control {
+  left: 0;
+  top: 0;
+  padding: 0.7rem 0.5rem;
+  color: #fff;
+}
+
+.box {
+  position: absolute;
 }
