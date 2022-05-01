@@ -40,7 +40,7 @@ const SocketIoPage: NextPage = () => {
       });
 
       let lastTimestamp = -1,
-        timestamps: number[] = [];
+        intervals: number[] = [];
       socket.on(
         "image",
         ({
@@ -57,14 +57,15 @@ const SocketIoPage: NextPage = () => {
           // calculate framerate
           if (lastTimestamp >= 0) {
             const elapsed = timestamp - lastTimestamp;
-            timestamps.push(elapsed);
-            if (timestamps.length > 51) {
-              timestamps.shift();
+            intervals.push(elapsed);
+            if (intervals.length > 51) {
+              intervals.shift();
             }
 
             // calc median
-            timestamps.sort();
-            const interval = timestamps[Math.floor(timestamps.length / 2)];
+            const currentIntervals = intervals.slice().sort();
+            const interval =
+              currentIntervals[Math.floor(currentIntervals.length / 2)];
 
             if (interval > 0) {
               setFps(1000 / interval);
