@@ -33,9 +33,21 @@ const sonycamInitHandler = async (
     if (res.socket.server.sonycam) {
       sonycam = res.socket.server.sonycam;
     } else {
-      const location = await discoverSonyDevice(5000);
-      io && io.emit("sonycam", `Discovered service spec location: ${location}`);
-
+      let location: string;
+      try {
+        location = await discoverSonyDevice(5000);
+        io &&
+          io.emit("sonycam", `Discovered service spec location: ${location}`);
+      } catch (e) {
+        if (
+          !(e instanceof Error) ||
+          e.message !== "Service discovery timeout"
+        ) {
+          throw e;
+        }
+        // fallback to the default spec location
+        location = "http://192.168.122.1:64321/dd.xml";
+      }
       const spec = await fetchSonyCamSpec(location);
       const serviceUrl = findSonyCamUrl(spec);
       io && io.emit("sonycam", `Found Sony camera service url: ${serviceUrl}`);
