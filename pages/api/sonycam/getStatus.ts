@@ -2,7 +2,7 @@ import { NextApiRequest } from "next";
 import { checkSonyCam } from "../../../lib/checkSonyCam";
 import { NextApiResponseWithSonyCam } from "../../../lib/NextApiResponseWithSonyCam";
 
-const sonycamGetEventHandler = async (
+const sonycamGetStatusHandler = async (
   _req: NextApiRequest,
   res: NextApiResponseWithSonyCam
 ) => {
@@ -10,10 +10,10 @@ const sonycamGetEventHandler = async (
     return;
   }
   const { sonycam } = res.socket.server;
-  const result = await sonycam.call("getEvent", [false as any]);
+  // const result = await sonycam.call("getEvent", [false]);
   res.json({
     success: true,
-    result,
+    result: sonycam.status,
   });
 };
 
@@ -23,4 +23,4 @@ export const config = {
   },
 };
 
-export default sonycamGetEventHandler;
+export default sonycamGetStatusHandler;

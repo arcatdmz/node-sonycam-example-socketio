@@ -32,6 +32,10 @@ const SocketIoPage: NextPage = () => {
       });
     };
     socket.on("image", imageListener);
+    const statusChangeListener = (updatedProps: any[]) => {
+      console.log("updated", updatedProps);
+    };
+    socket.on("statusChange", statusChangeListener);
     socket.on("sonycam", setMessage);
 
     fetch("/api/sonycam/init").then(async (res) => {
@@ -43,6 +47,7 @@ const SocketIoPage: NextPage = () => {
 
     return () => {
       socket.off("image", imageListener);
+      socket.off("statusChange", statusChangeListener);
       socket.off("sonycam", setMessage);
     };
   }, [socket]);
