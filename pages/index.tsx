@@ -86,19 +86,21 @@ const SocketIoPage: NextPage = () => {
   return (
     <SonyCamStatusContext.Provider value={status}>
       <div className={styles.body}>
-        <span className={[styles.fps, styles.box].join(" ")}>
-          <span className={styles.number}>
-            {playing && typeof fps === "number" ? Math.round(fps) : "-"}
-          </span>{" "}
-          fps
-        </span>
         <span className={[styles.control, styles.box].join(" ")}>
           <Button
+            basic
+            inverted
+            circular
             icon={playing ? "stop" : "play"}
-            color="grey"
             disabled={!initialized}
             onClick={handleClick}
           />
+          <span className={styles.fps}>
+            <span className={styles.number}>
+              {playing && typeof fps === "number" ? Math.round(fps) : "-"}
+            </span>{" "}
+            fps
+          </span>
         </span>
         <div className={[styles.status, styles.box].join(" ")}>
           {!overlayDisabled && (

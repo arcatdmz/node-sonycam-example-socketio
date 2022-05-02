@@ -70,7 +70,7 @@ export const SonyCamStatusControls: FC = () => {
           </List.Content>
         </List.Item>
       </List>
-      <Divider />
+      <Divider inverted />
       <div className="buttons">
         <SonyCamDisableStatusListenerButton />
       </div>

@@ -18,33 +18,31 @@ div.body > p > img {
   width: 100vw;
 }
 
-.fps {
-  background: #000a;
-  right: 0;
-  bottom: 0;
-  padding: 0.2rem 0.6rem;
-}
-.fps > .number {
-  font-weight: bold;
-}
-
 .control {
   left: 0;
   top: 0;
-  padding: 0.7rem 0.5rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+.fps {
+  margin: 0.3rem;
+  margin-left: 0.5rem;
+}
+.fps > .number {
+  font-weight: bold;
 }
 
 .status {
   right: 0;
   top: 0;
   padding: 0.7rem 0.5rem;
-  background: #000a;
 }
 
 .overlay {
   z-index: 100;
-  position: absolute;
   background: #000a;
+  position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
@@ -56,4 +54,5 @@ div.body > p > img {
 
 .box {
   position: absolute;
+  background: #000a;
 }

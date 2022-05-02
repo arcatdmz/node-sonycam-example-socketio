@@ -37,6 +37,7 @@ export const SonyCamZoomControl: FC = () => {
     [status]
   );
   const value = zoomInformation?.zoomPositionCurrentBox || 0;
+  const unsupported = isNaN(value) || value < 0;
   const handleZoomOutClick = useCallback(() => {
     setDisabled(true);
     fetch("/api/sonycam/zoomOut");
@@ -61,28 +62,36 @@ export const SonyCamZoomControl: FC = () => {
         }
       `}</style>
       <div className="slider-wrapper">
-        <Slider axis="x" xmin={0} xmax={100} xstep={1} x={value} />
+        <Slider
+          axis="x"
+          xmin={0}
+          xmax={100}
+          xstep={1}
+          x={value}
+          disabled={unsupported}
+        />
         <div className="buttons">
           <Button.Group size="tiny" inverted>
             <Button
               icon="zoom out"
               basic
               inverted
-              disabled={disabled}
+              disabled={disabled || unsupported}
               onClick={handleZoomOutClick}
             />
             <Button
               icon="zoom in"
               basic
               inverted
-              disabled={disabled}
+              disabled={disabled || unsupported}
               onClick={handleZoomInClick}
             />
           </Button.Group>
         </div>
       </div>
       <p>
-        {value}%, {zoomSetting?.zoom || "Unknown Zoom Mode"}
+        {unsupported ? "Zoom Unsupported" : `${value}%`},{" "}
+        {zoomSetting?.zoom || "Unknown Zoom Mode"}
       </p>
     </div>
   );
