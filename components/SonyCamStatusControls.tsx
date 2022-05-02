@@ -2,6 +2,7 @@ import { FC, useContext, useMemo } from "react";
 import { Divider, List } from "semantic-ui-react";
 import { SonyCamStatusContext } from "../lib/SonyCamStatusContext";
 import { SonyCamDisableStatusListenerButton } from "./SonyCamDisableStatusListenerButton";
+import { SonyCamExposureControl } from "./SonyCamExposureControl";
 import { SonyCamFocusModeControl } from "./SonyCamFocusModeControl";
 import { SonyCamZoomControl } from "./SonyCamZoomControl";
 
@@ -56,6 +57,14 @@ export const SonyCamStatusControls: FC = () => {
             <List.Header>Zoom information:</List.Header>
             <List.Description>
               <SonyCamZoomControl />
+            </List.Description>
+          </List.Content>
+        </List.Item>
+        <List.Item>
+          <List.Content>
+            <List.Header>Exposure compensastion:</List.Header>
+            <List.Description>
+              <SonyCamExposureControl />
             </List.Description>
           </List.Content>
         </List.Item>
