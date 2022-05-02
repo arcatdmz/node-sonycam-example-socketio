@@ -42,6 +42,7 @@ const sonycamStartFetchingStatusHandler = async (
     };
     sonycam.addListener("statusChange", statusChangeListener);
 
+    io.emit("statusListenerEnabled", true);
     res.json({
       success: true,
       message: fetchingStatus

@@ -14,7 +14,12 @@ export const SonyCamZoomControl: FC = () => {
   const [disabled, setDisabled] = useState<boolean>(false);
   const status = useContext(SonyCamStatusContext);
   useEffect(() => {
-    setDisabled(false);
+    if (
+      Array.isArray(status) &&
+      status.find((s) => s && s.type === "zoomInformation")
+    ) {
+      setDisabled(false);
+    }
   }, [status]);
 
   const zoomInformation = useMemo(
@@ -58,14 +63,18 @@ export const SonyCamZoomControl: FC = () => {
       <div className="slider-wrapper">
         <Slider axis="x" xmin={0} xmax={100} xstep={1} x={value} />
         <div className="buttons">
-          <Button.Group size="tiny">
+          <Button.Group size="tiny" inverted>
             <Button
               icon="zoom out"
+              basic
+              inverted
               disabled={disabled}
               onClick={handleZoomOutClick}
             />
             <Button
               icon="zoom in"
+              basic
+              inverted
               disabled={disabled}
               onClick={handleZoomInClick}
             />

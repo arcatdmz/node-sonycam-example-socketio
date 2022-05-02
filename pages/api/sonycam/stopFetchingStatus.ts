@@ -14,6 +14,7 @@ const sonycamStopFetchingStatusHandler = async (
     sonycam.stopFetchingStatus();
     sonycam.removeAllListeners("status");
     sonycam.removeAllListeners("statusChange");
+    io.emit("statusListenerEnabled", false);
     res.json({
       success: true,
       message: "Stopped fetching status",

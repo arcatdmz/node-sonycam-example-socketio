@@ -18,6 +18,7 @@ const SocketIoPage: NextPage = () => {
   const playing = useSonyCamPlaying(socket);
   const status = useSonyCamStatus(socket);
   const [initialized, setInitialized] = useState<boolean>(false);
+  const [overlayDisabled, setOverlayDisabled] = useState<boolean>(false);
   const [objectUrl, setObjectUrl] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
@@ -36,11 +37,12 @@ const SocketIoPage: NextPage = () => {
       });
     };
     socket.on("image", imageListener);
-    // const statusChangeListener = (updatedProps: any[]) => {
-    //   console.log("updated", updatedProps);
-    // };
-    // socket.on("statusChange", statusChangeListener);
+    const statusChangeListener = () => {
+      setOverlayDisabled(true);
+    };
+    socket.on("statusChange", statusChangeListener);
     socket.on("sonycam", setMessage);
+    socket.on("statusListenerEnabled", setOverlayDisabled);
 
     fetch("/api/sonycam/init").then(async (res) => {
       const json: {
@@ -51,8 +53,9 @@ const SocketIoPage: NextPage = () => {
 
     return () => {
       socket.off("image", imageListener);
-      // socket.off("statusChange", statusChangeListener);
+      socket.off("statusChange", statusChangeListener);
       socket.off("sonycam", setMessage);
+      socket.off("statusListenerEnabled", setOverlayDisabled);
     };
   }, [socket]);
 
@@ -75,6 +78,11 @@ const SocketIoPage: NextPage = () => {
     [playing]
   );
 
+  const handleOverlayClick = useCallback((ev: MouseEvent) => {
+    ev.preventDefault();
+    fetch("/api/sonycam/startFetchingStatus");
+  }, []);
+
   return (
     <SonyCamStatusContext.Provider value={status}>
       <div className={styles.body}>
@@ -93,6 +101,11 @@ const SocketIoPage: NextPage = () => {
           />
         </span>
         <div className={[styles.status, styles.box].join(" ")}>
+          {!overlayDisabled && (
+            <div className={styles.overlay} onClick={handleOverlayClick}>
+              <Button icon="play" circular inverted />
+            </div>
+          )}
           <SonyCamStatusControls />
         </div>
         <p>
