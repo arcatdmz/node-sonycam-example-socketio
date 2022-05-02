@@ -34,6 +34,13 @@ div.body > p > img {
   padding: 0.7rem 0.5rem;
 }
 
+.status {
+  right: 0;
+  top: 0;
+  padding: 0.7rem 0.5rem;
+  background: #000a;
+}
+
 .box {
   position: absolute;
 }
