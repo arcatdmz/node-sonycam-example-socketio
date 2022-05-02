@@ -10,10 +10,9 @@ const sonycamIsLiveviewingHandler = async (
     return;
   }
   const { sonycam } = res.socket.server;
-  const playing = sonycam.liveviewing;
   res.json({
     success: true,
-    playing,
+    result: sonycam.liveviewing,
   });
 };
 

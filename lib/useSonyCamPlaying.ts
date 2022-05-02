@@ -13,10 +13,10 @@ export function useSonyCamPlaying(socket: Socket | null) {
     fetch("/api/sonycam/isLiveviewing").then(async (res) => {
       const json: {
         success: boolean;
-        playing: boolean;
+        result: boolean;
       } = await res.json();
       if (mounted) {
-        setPlaying(json.playing);
+        setPlaying(json.result);
       }
     });
 
