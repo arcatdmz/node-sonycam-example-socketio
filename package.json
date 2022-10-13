@@ -25,7 +25,6 @@
   "dependencies": {
     "fomantic-ui": "^2.8.8",
     "next": "12.1.5",
-    "node-sonycam-example-socketio": "^0.0.6",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-input-slider": "^6.0.1",
