@@ -29,6 +29,7 @@
     "react-dom": "18.0.0",
     "react-input-slider": "^6.0.1",
     "semantic-ui-react": "^2.1.2",
+    "node-sonycam": "0.0.6",
     "socket.io": "^4.5.0",
     "socket.io-client": "^4.5.0"
   },
